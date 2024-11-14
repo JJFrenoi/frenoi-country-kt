@@ -1,13 +1,21 @@
+import net.researchgate.release.ReleaseExtension
+import org.gradle.kotlin.dsl.configure
+
 val logback_version: String by project
 val prometheus_version: String by project
 val mongodb_version: String by project
 val koin_version: String by project
-
+buildscript {
+    dependencies {
+        classpath("net.researchgate:gradle-release:3.0.2")
+    }
+}
 plugins {
     kotlin("jvm") version "2.0.20"
     id("io.ktor.plugin") version "3.0.0-rc-2"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.20"
     id("org.graalvm.buildtools.native") version "0.10.3"
+    id("net.researchgate.release") version "3.0.2"
 }
 
 group = "com.frenoi.country"
@@ -57,3 +65,13 @@ graalvmNative {
     }
 }
 
+configure<ReleaseExtension> {
+    ignoredSnapshotDependencies.set(listOf("net.researchgate:gradle-release"))
+    with(git) {
+        requireBranch.set("master")
+        pushToRemote.set("origin")
+        pushToBranchPrefix.set("")
+        commitVersionFileOnly.set(false)
+        signTag.set(false)
+    }
+}

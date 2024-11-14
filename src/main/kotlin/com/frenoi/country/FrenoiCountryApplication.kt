@@ -5,7 +5,7 @@ import com.frenoi.country.plugins.configureModule
 import com.frenoi.country.plugins.configureMonitoring
 import com.frenoi.country.plugins.configureRouting
 import com.frenoi.country.plugins.configureSerialization
-import io.ktor.server.application.*
+import io.ktor.server.application.Application
 
 fun main(args: Array<String>) {
     io.ktor.server.cio.EngineMain.main(args)

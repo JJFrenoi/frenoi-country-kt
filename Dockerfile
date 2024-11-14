@@ -5,7 +5,7 @@ COPY . /graalvm
 RUN ./gradlew nativeCompile --no-daemon
 # Stage 2: Create the Runtime Image
 FROM alpine AS runtime
-ENV TZ Europe/Paris
+ENV TZ=Europe/Paris
 WORKDIR /app
 ARG BUILD_PATH=/graalvm/build/native/nativeCompile/
 ARG MONGO_URI
