@@ -1,0 +1,15 @@
+application:
+  name: FrenoiCountry
+  uniqueId: B002
+ktor:
+  development: $io.ktor.development
+  mongo:
+    uri: $MONGO_URI
+    database: $MONGO_DATABASE
+  application:
+    modules:
+      - com.frenoi.country.FrenoiCountryApplicationKt.module
+  deployment:
+    port: 8080
+
+
