@@ -56,6 +56,10 @@ pipeline {
             steps {
                 container('gradle') {
                     echo "Releasing new version ${params.APP_VERSION}"
+                    sh "git config user.name 'Jenkins'"
+                    sh "git config user.email 'jenkins@frenoi.com'"
+                    sh 'git checkout master'
+                    sh 'git pull origin master'
                     sh "gradle clean release -Prelease.useAutomaticVersion=true -Prelease.releaseVersion=${APP_VERSION}"
                 }
             }
