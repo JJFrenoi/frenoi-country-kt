@@ -40,9 +40,23 @@ pipeline {
                 container('docker') {
                     script {
                         def localImageVersion = "${env.LOCAL_REGISTRY}/${IMAGE_NAME}:${APP_VERSION}"
-                        sh "docker build -t ${localImageVersion} . --build-arg MONGO_URI=${MONGO_URI} --build-arg MONGO_DATABASE=${MONGO_DATABASE}"
+                        sh "docker build -t ${localImageVersion} . " +
+                            "--build-arg MONGO_URI=${MONGO_URI} --build-arg MONGO_DATABASE=${MONGO_DATABASE}"
                         sh "docker push ${localImageVersion}"
                     }
+                }
+            }
+        }
+        stage('Release') {
+            when {
+                expression {
+                    params.TAG_VERSION
+                }
+            }
+            steps {
+                container('gradle') {
+                    echo "Releasing new version ${params.APP_VERSION}"
+                    sh "gradle clean release -Prelease.useAutomaticVersion=true -Prelease.releaseVersion=${APP_VERSION}"
                 }
             }
         }
